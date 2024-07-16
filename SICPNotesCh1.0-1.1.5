@@ -1,0 +1,100 @@
+Chapter 1 - Building Abstractions with Procedures
+
+1.0
+Processes are abstract, programs are not
+
+Lisp programming language is used in this course
+  - Lisp procedures can be manipulated as Lisp data
+  - List Processor
+
+1.1
+- primitive expressions - simplest entities
+- means of combination - compound elements built from them
+- means of abstraction - manipulating compound elements as units
+
+Elements are procedures and data
+
+Prefix notation gets rid of ambiguity and allows nesting
+
+1.1.2
+Naming computational objects in Lisp
+-name identifies a variable whose value is object
+name things with "define"
+"define size 2" associates value 2 with name size
+
+Define is lowest level of abstraction because it enables the
+use of simple names to refer to the results of compound operations
+
+Memory that keeps track of name-object pairs is called the environment
+- includes the global environment and other specific ones
+
+1.1.3
+Evaluating combinations requires recursion
+1. Interpreter evaluates the subexpressions of the combination
+2. Interpreter applies the procedure that is the value of the leftmost
+sub-expression (the operator) to the arguments that are the values of the 
+other subexpressions (the operands)
+
+First step dictates that evaluation is only possible if performed on each
+element of the combination. Therefore, it is recursive because it requires
+invoking itself. Recursion helps evaluate hierarchical, treelike objects.
+The process of moving values up a tree is called tree accumulation.
+
+Recursion stops at primitive expressions, numerals, and operators because
+we take them to equal the machine instructions that represent the values of
+such numerals, names, and operations.
+
+Define is an exception to the evaluation rule because it only applies to
+one argument. These exceptions are called special forms.
+
+1.1.4
+Procedure definitions give compound operations a name so they can be
+manipulated as a unit.
+
+(define (square x) (* x x))
+To square something, multiply it by itself.
+
+(define ([name] [formal parameters]) [body])
+Name is associated with the procedure definition in the environment.
+
+(square 21)
+441
+
+Square can be used as a building block within other procedures.
+(define (sum-of-squares x y)
+  (+ (square x) (square y)))
+
+(sum-of-squares 3 4)
+25
+
+(define (f a)
+  (sum-of-squares (+ a 1) (* a 2)))
+
+(f 5)
+136
+
+1.1.5
+The Substitution Model for Procedure Application
+Evaluting combinations uses the same process as evaluating primitive
+procedures. It applies the operator to the operands (the elements of
+the combination).
+
+It reverses the abstraction described in 1.1.4 by pulling the
+definitions of the preceding levels and evaluating them for the given
+argument. This is called the substitution model for procedure
+application.
+
+NOTE: This abstraction is meant to help students think about
+procedure application and does not describe how interpreters really
+work.
+
+Normal-order evaluation substitutes operand expressions for parameters
+first and doesn't perform an evaluation until it reaches an
+expression containing only primitive operators. This could also be
+called "fully expanding then reducing".
+
+What the interpreter actually does is applicative-order evaluation,
+which is "evaluating the arguments then applying". This avoids
+multiple evaluations as seen with normal-order evaluation.
+
+
