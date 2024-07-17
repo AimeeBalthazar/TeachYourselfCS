@@ -1,0 +1,24 @@
+1.1.6
+Conditional Expressions and Predicates
+
+Ways to perform different operations based on the results of a test
+|x| = { x if x > 0 
+        0 if x = 0 
+        -x if x < 0
+
+This construct is called a case analysis, and it is called cond in
+Lisp (for "conditional")
+
+(define (abs x)
+  (cond ((> x 0) x)
+        ((= x 0) 0)
+        ((< x 0) (-x))))
+
+Parenthesized pairs ((p) (e)) are called clauses.
+The first expression, called a predicate, is evaluated to be true
+or false. Then this continues until a predicate is found to be
+true.
+
+There are also logical composition operations such as "and", "or",
+and "not".
+
